@@ -3,37 +3,74 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-//        Выводим приветственное сообщение.
         System.out.println("Hi! I'm a task tracker.");
 
-//        Создаем Scanner для ввода данных с клавиатуры
         Scanner scanner = new Scanner(System.in);
 
-//        Просим пользователя ввести имя + вывод приветственного сообщения.
         System.out.print("Enter your name: ");
         String userName = scanner.nextLine();
         System.out.println(userName + ", Welcome to the task tracker!");
 
-//        Просим пользователя ввести название задачи и сохраняем результат в переменной
-        System.out.print("Let's go! Enter the name of your task: ");
-        String taskName = scanner.nextLine();
+        String[][] tasksArray = new String[10][3];
+        int taskNumbering = 0;
 
-//        Просим пользователя ввести описание задачи и сохраняем результат в переменной
-        System.out.print("Now describe your task: ");
-        String taskDescribe = scanner.nextLine();
+        int userChoice;
 
-//        Просим пользователя ввести приоритет задачи (от 1 до 10) и сохраняем результат в переменной
-        System.out.print("What is the priority of your task (Please enter a number between 1 and 10): ");
-        int taskPriority = scanner.nextInt();
+        do {
+            System.out.println("\n" + userName + ", select one of the menu options:");
+            System.out.println("1 - Enter a task");
+            System.out.println("2 - Display information about tasks");
+            System.out.println("0 - Exit");
+            System.out.print("Enter your choice: ");
 
-//        Выводим сообщение о подтверждении
-        System.out.println(userName + ", Great job! Information about your first task has been successfully added.");
+            userChoice = scanner.nextInt();
+            scanner.nextLine();
 
-//        Выводим информацию о задаче (название, описание, приоритет)
-        System.out.println("Information about your task: ");
-        System.out.println("Name: " + taskName);
-        System.out.println("Description: " + taskDescribe);
-        System.out.println("Priority: " + taskPriority);
+            switch (userChoice) {
+                case 1:
+                    if (taskNumbering < tasksArray.length) {
+                        System.out.println("\n--- Entering a new task ---");
+
+                        System.out.print("Let's go! Enter the name of your task: ");
+                        tasksArray[taskNumbering][0] = scanner.nextLine();
+
+                        System.out.print("Now describe your task: ");
+                        tasksArray[taskNumbering][1] = scanner.nextLine();
+
+                        System.out.print("What is the priority of your task (Please enter a number between 1 and 10): ");
+                        tasksArray[taskNumbering][2] = scanner.nextLine();
+
+                        System.out.println(userName + ", Great job! Your task has been successfully added.");
+                        taskNumbering++;
+                    } else {
+                        System.out.println("The task archive is full! Cannot add more tasks.");
+                    }
+                    break;
+
+                case 2:
+                    if (taskNumbering > 0) {
+                        System.out.println("\nInformation about your tasks");
+                        for (int i = 0; i < taskNumbering; i++) {
+                            System.out.println("\nTask number " + (i + 1));
+                            System.out.println("  Name: " + tasksArray[i][0]);
+                            System.out.println("  Description: " + tasksArray[i][1]);
+                            System.out.println("  Priority: " + tasksArray[i][2]);
+                        }
+                        System.out.println("\nAll tasks: " + taskNumbering);
+                    } else {
+                        System.out.println("\nNo tasks added yet.");
+                    }
+                    break;
+
+                case 0:
+                    System.out.println("\nGoodbye, " + userName + "! See you soon!");
+                    break;
+
+                default:
+                    System.out.println("\nError! Please choose 1, 2, or 0.");
+            }
+
+        } while (userChoice != 0);
 
         scanner.close();
     }
